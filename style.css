@@ -1,0 +1,30 @@
+body {
+  font-family: Arial, sans-serif;
+  /* background: linear-gradient(to right, #ff7e5f, #feb47b); */
+  background: linear-gradient(to right, #c300ff, #6bb3c7);
+  color: #fff;
+}
+
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#response {
+  margin-top: 20px;
+}
+
+#responseText {
+  font-size: 18px;
+  color: #fff;
+  white-space: pre-wrap; /* Maintain newlines in the response text */
+}
+dialog{
+  border-radius: 10px;
+  text-align: center;
+}
