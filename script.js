@@ -11,35 +11,35 @@ let isRecognitionRunning = false;
 
 
 const predefinedResponses = {
-  "what is your name": "My name is Edu Bot Ai.",
+  "what is your name": "My name is majid yamani",
   "who is your developer": "Haseef Muhammed is my developer. You can visit his website at haseef-ws.netlify.app.",
-  "who made you": "Made by by Haseef, Agney, Archith, and Niranjan.",
+  "what's your name": "My name is majid yamani",
   "where are you from": "I belong to p.m.s.a.p.t.h.s.s Kakkove . ATL Lab",
   "who is your designer": "Agney. A. is a multifaceted talent, excelling as a singer, designer, and technician. With a passion for music, Agney A delivers captivating performances that resonate with audiences. His design skills and technical expertise complement his artistic endeavors, creating a unique blend of creativity and precision.",
   "create a welcome speech": "Hello everyone, Welcome to the launch of Edu Bot AI! We're excited to introduce this innovative AI-powered teacher, designed to make learning smarter, more personalized, and fun. Edu Bot AI is here to support students and teachers, making education more interactive and accessible. Thank you for joining us as we step into the future of education with Edu Bot AI.",
   "Introduce yourself": "My name is Edu Bot Ai , Iam a robot teacher , I will give the answer for every questions , I have many intractive feature ,"
 };
 recognition.onresult = (event) => {
-    const transcript = event.results[event.results.length - 1][0].transcript.trim();
-    console.log('Transcript:', transcript);
+  const transcript = event.results[event.results.length - 1][0].transcript.trim();
+  console.log('Transcript:', transcript);
 
-    const normalizedTranscript = transcript.toLowerCase();
+  const normalizedTranscript = transcript.toLowerCase();
 
-    if (normalizedTranscript.includes('hey teacher')) {
-        const question = normalizedTranscript.replace(/hey teacher/i, '').trim();
-        if (question) {
-            if (predefinedResponses[question]) {
-                const responseText = predefinedResponses[question];
-                document.getElementById('responseText').textContent = responseText;
-                speakText(responseText);
-            } else {
-                document.getElementById('responseText').textContent = `You asked: "${question}"`;
-                fetchContent(question);
-            }
-        } else {
-            document.getElementById('responseText').textContent = 'Please ask a question after saying "Hey Teacher".';
-        }
-    }
+  if (normalizedTranscript.includes('ustad')) { // Change 'Ustad' to 'ustad'
+      const question = normalizedTranscript.replace(/ustad/i, '').trim(); // Change 'Ustad' to 'ustad'
+      if (question) {
+          if (predefinedResponses[question]) {
+              const responseText = predefinedResponses[question];
+              document.getElementById('responseText').textContent = responseText;
+              speakText(responseText);
+          } else {
+              document.getElementById('responseText').textContent = `You asked: "${question}"`;
+              fetchContent(question);
+          }
+      } else {
+          document.getElementById('responseText').textContent = 'Please ask a question after saying "Ustad".';
+      }
+  }
 };
 
 recognition.onend = () => {
@@ -119,41 +119,52 @@ function stripMarkdown(text) {
 
 // Function to read the text aloud with a female voice and limit to 20 seconds
 function speakText(text) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    const voices = window.speechSynthesis.getVoices();
-    const maleVoice = voices.find(voice => voice.name.includes('Male')) || voices[0];
+  const utterance = new SpeechSynthesisUtterance(text);
+  const voices = window.speechSynthesis.getVoices();
+  const maleVoice = voices.find(voice => voice.name.toLowerCase().includes('Male')) || voices[0];
 
-    if (maleVoice) {
-        utterance.voice = maleVoice;
-    }
+  if (maleVoice) {
+      utterance.voice = maleVoice;
+  }
 
-    const readTimeLimit = 60000; // 20 seconds
-    let speakingTimeout;
+  const muallimImage = document.getElementById('muallimImage');
+  muallimImage.src = 'muallim-open.png';  // Open the mouth
+  muallimImage.classList.add('shake');    // Start shaking
 
-    utterance.onend = () => {
-        console.log('Speech ended.');
-        document.getElementById('responseText').textContent += '\nYou can read from the screen.';
-        clearTimeout(speakingTimeout);
-        setTimeout(startRecognition, 1000); // Delay before restarting recognition
-    };
+  const readTimeLimit = 20000; // 20 seconds
+  let speakingTimeout;
 
-    utterance.onerror = (event) => {
-        console.error('SpeechSynthesisUtterance.onerror', event);
-        clearTimeout(speakingTimeout);
-        setTimeout(startRecognition, 1000); // Delay before restarting recognition
-    };
+  utterance.onend = () => {
+      console.log('Speech ended.');
+      muallimImage.src = 'muallim-closed.png';  // Close the mouth
+      muallimImage.classList.remove('shake');   // Stop shaking
+      document.getElementById('responseText').textContent += '\nYou can read from the screen.';
+      clearTimeout(speakingTimeout);
+      setTimeout(startRecognition, 1000); // Delay before restarting recognition
+  };
 
-    // Stop recognition while speaking
-    recognition.stop();
-    isRecognitionRunning = false;
-    window.speechSynthesis.speak(utterance);
+  utterance.onerror = (event) => {
+      console.error('SpeechSynthesisUtterance.onerror', event);
+      muallimImage.src = 'muallim-closed.png';  // Close the mouth
+      muallimImage.classList.remove('shake');   // Stop shaking
+      clearTimeout(speakingTimeout);
+      setTimeout(startRecognition, 1000); // Delay before restarting recognition
+  };
 
-    speakingTimeout = setTimeout(() => {
-        window.speechSynthesis.cancel();
-        document.getElementById('responseText').textContent += '\nYou can read from the screen.';
-        setTimeout(startRecognition, 1000); // Delay before restarting recognition
-    }, readTimeLimit); // Stop speaking after 20 seconds
+  // Stop recognition while speaking
+  recognition.stop();
+  isRecognitionRunning = false;
+  window.speechSynthesis.speak(utterance);
+
+  speakingTimeout = setTimeout(() => {
+      window.speechSynthesis.cancel();
+      muallimImage.src = 'muallim-closed.png';  // Close the mouth
+      muallimImage.classList.remove('shake');   // Stop shaking
+      document.getElementById('responseText').textContent += '\nYou can read from the screen.';
+      setTimeout(startRecognition, 1000); // Delay before restarting recognition
+  }, readTimeLimit); // Stop speaking after 20 seconds
 }
+
 
 // Ensure voices are loaded and set up
 window.speechSynthesis.onvoiceschanged = () => {

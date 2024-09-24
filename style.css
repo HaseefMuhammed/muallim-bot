@@ -28,3 +28,55 @@ dialog{
   border-radius: 10px;
   text-align: center;
 }
+#muallimImage {
+  transition: all 0.3s ease; /* Smooth transition when changing images */
+  border-radius: 10px;
+}
+
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#response {
+  margin-top: 20px;
+}
+
+#responseText {
+  font-size: 18px;
+  color: #fff;
+  white-space: pre-wrap;
+}
+
+dialog {
+  border-radius: 10px;
+  text-align: center;
+}
+
+@keyframes shake {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-2px, 0); }
+  20% { transform: translate(2px, 0); }
+  30% { transform: translate(-2px, 0); }
+  40% { transform: translate(2px, 0); }
+  50% { transform: translate(-1px, 0); }
+  60% { transform: translate(1px, 0); }
+  70% { transform: translate(-1px, 0); }
+  80% { transform: translate(1px, 0); }
+  90% { transform: translate(-0.5px, 0); }
+  100% { transform: translate(0, 0); }
+}
+
+.shake {
+  animation: shake 0.5s infinite; /* Infinite shaking animation */
+}
+
+#muallimImage {
+  transition: all 0.3s ease;
+  border-radius: 10px;
+}
